@@ -1,9 +1,9 @@
-package com.raffa.crypto;
+package texttransform;
 
 import java.util.Random;
 
-public final class RaffaCipher {
-    private RaffaCipher() {}
+public final class TextObfuscator {
+    private TextObfuscator() {}
 
     public static String encode(String plain, String key) {
         long seed = KeyDerivation.seedFromKey(key);
@@ -34,7 +34,7 @@ public final class RaffaCipher {
 
     public static String decode(String cipher, String key) {
         if (cipher.length() % CipherConfig.BLOCK_LEN != 0) {
-            throw new IllegalArgumentException("Codierung nicht erlaubt: die länge ist nicht multiplizierbar durch" + CipherConfig.BLOCK_LEN);
+            throw new IllegalArgumentException("Ungültige verschlüsselte Nachricht: die Länge muss ein Vielfaches von " + CipherConfig.BLOCK_LEN + " sein.");
         }
 
         long seed = KeyDerivation.seedFromKey(key);

@@ -26,8 +26,8 @@ The commands below were verified with JDK 21.
 From the repository root:
 
 ```sh
-javac -encoding UTF-8 -d out src/com/raffa/crypto/*.java
-java -cp out com.raffa.crypto.App
+javac -encoding UTF-8 -d out src/texttransform/*.java
+java -cp out texttransform.App
 ```
 
 The current menu is in German:
@@ -36,18 +36,33 @@ The current menu is in German:
 - `2`: decode text using the same password.
 - `0`: exit.
 
+Invalid menu choices are rejected before a password is requested. Encoded input with the wrong length shows an error message and returns to the menu. The program exits cleanly when input ends, for example at the end of piped input. Messages and passwords are used exactly as typed, including leading and trailing spaces.
+
+## Regression checks
+
+The checks are a small program without external libraries. From the repository root:
+
+```sh
+javac -encoding UTF-8 -d out src/texttransform/*.java test/texttransform/*.java
+java -cp out texttransform.RegressionChecks
+```
+
+Each check prints one line. The program exits with status 1 if any check fails.
+
 ## Structure
 
-- `App`: terminal menu and user input.
-- `CipherConfig`: block size and filler alphabet.
-- `KeyDerivation`: converts the password into a seed.
-- `RaffaCipher`: encoding and decoding logic.
+All classes are in the package `texttransform`.
+
+- `src/texttransform/App`: terminal menu and user input.
+- `src/texttransform/CipherConfig`: block size and filler alphabet.
+- `src/texttransform/KeyDerivation`: converts the password into a seed.
+- `src/texttransform/TextObfuscator`: encoding and decoding logic.
+- `test/texttransform/RegressionChecks`: dependency-free checks for the cipher and the CLI.
 
 ## Known limitations
 
 - The custom transformation provides no cryptographic security.
-- Malformed encoded input can terminate the CLI with an exception.
-- The repository does not yet contain automated tests.
+- Only encoded input with the wrong length is detected. Other edits to the encoded text go unnoticed, and a wrong password silently produces unrelated text.
 - Characters outside `a-z`, including uppercase letters, digits, spaces and punctuation, remain visible in the encoded output.
 
 ## Licence

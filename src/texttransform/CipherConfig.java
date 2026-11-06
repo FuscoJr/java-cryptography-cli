@@ -1,4 +1,4 @@
-package com.raffa.crypto;
+package texttransform;
 
 public final class CipherConfig
 {
