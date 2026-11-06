@@ -1,4 +1,4 @@
-package com.raffa.crypto;
+package texttransform;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -32,8 +32,8 @@ public final class RegressionChecks
     // Ausgabe der Version vor den CLI-Fixes: der Algorithmus darf sich nicht ändern.
     private static void cipherCompatibility() {
         String expected = "cvfijxzcwtwfwzlebg onayyazgenrvuHlkwmfpuzwruxonbieizkecwdjjcxzeoaneiomeidcnxvcl!pyzqdqpimhjpjwqnuveoepukzxhdwkowkp rheiiajbwfpbsgi";
-        check("encode bleibt kompatibel", RaffaCipher.encode(" Hi! ", " pw ").equals(expected));
-        check("decode bleibt kompatibel", RaffaCipher.decode(expected, " pw ").equals(" Hi! "));
+        check("encode bleibt kompatibel", TextObfuscator.encode(" Hi! ", " pw ").equals(expected));
+        check("decode bleibt kompatibel", TextObfuscator.decode(expected, " pw ").equals(" Hi! "));
     }
 
     private static void cipherRoundTrips() {
@@ -41,7 +41,7 @@ public final class RegressionChecks
         String[] keys = {"", " ", "pw", " pw "};
         for (String text : texts) {
             for (String key : keys) {
-                String back = RaffaCipher.decode(RaffaCipher.encode(text, key), key);
+                String back = TextObfuscator.decode(TextObfuscator.encode(text, key), key);
                 check("Round trip [" + text + "] mit Passwort [" + key + "]", back.equals(text));
             }
         }
@@ -49,7 +49,7 @@ public final class RegressionChecks
 
     private static void cipherRejectsMalformedInput() {
         try {
-            RaffaCipher.decode("abc", "pw");
+            TextObfuscator.decode("abc", "pw");
             check("decode lehnt falsche Länge ab", false);
         } catch (IllegalArgumentException e) {
             check("decode lehnt falsche Länge ab", true);
@@ -60,7 +60,7 @@ public final class RegressionChecks
         String out = runCli("2\npw\nabc\n1\npw\nhi\n0\n");
         check("CLI zeigt Fehlermeldung bei falscher Länge",
                 out.contains("Ungültige verschlüsselte Nachricht: die Länge muss ein Vielfaches von 26 sein."));
-        check("CLI verschlüsselt danach weiter", lineAfter(out, "VERSCHLÜSSELT:").equals(RaffaCipher.encode("hi", "pw")));
+        check("CLI verschlüsselt danach weiter", lineAfter(out, "VERSCHLÜSSELT:").equals(TextObfuscator.encode("hi", "pw")));
     }
 
     private static void cliInvalidOptionDoesNotAskForPassword() {
@@ -70,7 +70,7 @@ public final class RegressionChecks
 
         out = runCli("5\n1\npw\nhi\n0\n");
         check("CLI nimmt nach ungültiger Auswahl die nächste Auswahl an",
-                lineAfter(out, "VERSCHLÜSSELT:").equals(RaffaCipher.encode("hi", "pw")));
+                lineAfter(out, "VERSCHLÜSSELT:").equals(TextObfuscator.encode("hi", "pw")));
     }
 
     private static void cliEndOfInputAtEveryPrompt() {
@@ -97,7 +97,7 @@ public final class RegressionChecks
         String key = " pw ";
 
         String encoded = lineAfter(runCli("1\n" + key + "\n" + text + "\n0\n"), "VERSCHLÜSSELT:");
-        check("CLI behält Leerzeichen in Nachricht und Passwort", encoded.equals(RaffaCipher.encode(text, key)));
+        check("CLI behält Leerzeichen in Nachricht und Passwort", encoded.equals(TextObfuscator.encode(text, key)));
 
         String decoded = lineAfter(runCli("2\n" + key + "\n" + encoded + "\n0\n"), "Entschlüsselt");
         check("CLI Round trip mit Leerzeichen", decoded.equals(text));

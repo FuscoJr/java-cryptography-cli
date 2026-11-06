@@ -26,8 +26,8 @@ The commands below were verified with JDK 21.
 From the repository root:
 
 ```sh
-javac -encoding UTF-8 -d out src/com/raffa/crypto/*.java
-java -cp out com.raffa.crypto.App
+javac -encoding UTF-8 -d out src/texttransform/*.java
+java -cp out texttransform.App
 ```
 
 The current menu is in German:
@@ -43,19 +43,21 @@ Invalid menu choices are rejected before a password is requested. Encoded input 
 The checks are a small program without external libraries. From the repository root:
 
 ```sh
-javac -encoding UTF-8 -d out src/com/raffa/crypto/*.java test/com/raffa/crypto/*.java
-java -cp out com.raffa.crypto.RegressionChecks
+javac -encoding UTF-8 -d out src/texttransform/*.java test/texttransform/*.java
+java -cp out texttransform.RegressionChecks
 ```
 
 Each check prints one line. The program exits with status 1 if any check fails.
 
 ## Structure
 
-- `App`: terminal menu and user input.
-- `CipherConfig`: block size and filler alphabet.
-- `KeyDerivation`: converts the password into a seed.
-- `RaffaCipher`: encoding and decoding logic.
-- `test/.../RegressionChecks`: dependency-free checks for the cipher and the CLI.
+All classes are in the package `texttransform`.
+
+- `src/texttransform/App`: terminal menu and user input.
+- `src/texttransform/CipherConfig`: block size and filler alphabet.
+- `src/texttransform/KeyDerivation`: converts the password into a seed.
+- `src/texttransform/TextObfuscator`: encoding and decoding logic.
+- `test/texttransform/RegressionChecks`: dependency-free checks for the cipher and the CLI.
 
 ## Known limitations
 

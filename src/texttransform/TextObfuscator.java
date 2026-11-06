@@ -1,9 +1,9 @@
-package com.raffa.crypto;
+package texttransform;
 
 import java.util.Random;
 
-public final class RaffaCipher {
-    private RaffaCipher() {}
+public final class TextObfuscator {
+    private TextObfuscator() {}
 
     public static String encode(String plain, String key) {
         long seed = KeyDerivation.seedFromKey(key);

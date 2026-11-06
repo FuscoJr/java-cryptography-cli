@@ -1,4 +1,4 @@
-package com.raffa.crypto;
+package texttransform;
 
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -35,13 +35,13 @@ public class App
                 out.println("Nachricht: ");
                 String plain = readLine(input);
                 if (plain == null) return;
-                out.println("\nVERSCHLÜSSELT:\n" + RaffaCipher.encode(plain,key));
+                out.println("\nVERSCHLÜSSELT:\n" + TextObfuscator.encode(plain,key));
             } else {
                 out.println("Verschlüsselte Nachricht: ");
                 String cipher = readLine(input);
                 if (cipher == null) return;
                 try {
-                    out.println("\nEntschlüsselt\n" + RaffaCipher.decode(cipher,key));
+                    out.println("\nEntschlüsselt\n" + TextObfuscator.decode(cipher,key));
                 } catch (IllegalArgumentException e) {
                     out.println("\n" + e.getMessage());
                 }
