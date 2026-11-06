@@ -48,6 +48,7 @@ The current menu is in German:
 - The custom transformation provides no cryptographic security.
 - Malformed encoded input can terminate the CLI with an exception.
 - The repository does not yet contain automated tests.
+- Characters outside `a-z`, including uppercase letters, digits, spaces and punctuation, remain visible in the encoded output.
 
 ## Licence
 
