@@ -1,5 +1,7 @@
 # Java Cryptography CLI
 
+> **Status: learning archive.** Historical school exercise, retained to document my learning in Java and reversible text transformations. Development has ended. This is not secure encryption.
+
 An educational Java command-line project exploring a custom reversible text transformation.
 
 This project was created to practise Java, strings, deterministic pseudo-random sequences and separating responsibilities across classes.
